@@ -1,3 +1,5 @@
+// Adapted from https://github.com/rodrigobranas/cpf/blob/master/validateCpf_after.js
+
 const FACTOR_DIGIT_1 = 10;
 const FACTOR_DIGIT_2 = 11;
 const MAX_DIGITS_1 = 9;
