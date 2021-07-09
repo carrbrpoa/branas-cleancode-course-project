@@ -1,12 +1,17 @@
 // Adapted from https://github.com/rodrigobranas/cpf/blob/master/validateCpf_after.js
+export default class Cpf {
+    value: string;
 
-const FACTOR_DIGIT_1 = 10;
-const FACTOR_DIGIT_2 = 11;
-const MAX_DIGITS_1 = 9;
-const MAX_DIGITS_2 = 10;
+    constructor(value: string) {
+        if (!this.validateCpf(value)) throw new Error("Invalid cpf");
+        this.value = value;
+    }
 
-export default class CpfValidator {
     validateCpf(cpf = '') {
+        const FACTOR_DIGIT_1 = 10;
+        const FACTOR_DIGIT_2 = 11;
+        const MAX_DIGITS_1 = 9;
+        const MAX_DIGITS_2 = 10;
         cpf = this.extractDigits(cpf);
         if (this.isInvalidLength(cpf)) return false;
         if (this.isBlocked(cpf)) return false;

@@ -1,28 +1,26 @@
-import CpfValidator from "./CpfValidator";
+import Cpf from "./Cpf";
+import Student from "./Student";
 
 export default class EnrollStudent {
-    private enrolledStudentsRequests: Array<{ student: { name: string, cpf: string } }> = [];
+    private enrollments: any[];
 
-    execute(enrollmentRequest = { student: { name: '', cpf: '' } }) {
-        if (!this.isValidStudentName(enrollmentRequest.student.name)) {
-            throw new Error('Invalid student name');
-        }
-        const cpfValidator = new CpfValidator()
-        if (!cpfValidator.validateCpf(enrollmentRequest.student.cpf)) {
-            throw new Error('Invalid student cpf');
-        }
+    constructor () {
+        this.enrollments = [];
+    }
+
+    execute(enrollmentRequest: any) {
+        const student = new Student(enrollmentRequest.student.name, enrollmentRequest.student.cpf);
         if (this.isDuplicatedEnrollment(enrollmentRequest)) {
             throw new Error('Enrollment with duplicated student is not allowed');
         }
-        this.enrolledStudentsRequests.push(enrollmentRequest);
-    }
-
-    private isValidStudentName(name: string) {
-        const regexForName = /^([A-Za-z]+ )+([A-Za-z])+$/
-        return regexForName.test(name);
+        const enrollment = {
+            student
+        };
+        this.enrollments.push(enrollment);
+        return enrollment;
     }
 
     private isDuplicatedEnrollment(enrollmentRequest: any) {
-        return this.enrolledStudentsRequests.some(enrolledStudentRequest => enrolledStudentRequest.student.cpf === enrollmentRequest.student.cpf);
+        return this.enrollments.some(enrollment => enrollment.student.cpf.value === enrollmentRequest.student.cpf);
     }
 }
